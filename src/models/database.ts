@@ -42,3 +42,4 @@ export const storage = admin.storage();
 export const firestore = admin.firestore();
 export const database = admin.database();
 export const FieldValue = admin.firestore.FieldValue;
+export const Timestamp = admin.firestore.Timestamp;

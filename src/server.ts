@@ -37,7 +37,7 @@ const app = express();
 
 // use Graphql
 app.use(
-	'/graphql',
+	'/graphql/inkmarket',
 	GraphHTTP({
 		graphiql: true,
 		schema: schema

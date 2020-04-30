@@ -1,7 +1,7 @@
 /** @format */
 // for model inkmaerte backend
 
-import { firestore } from './database';
+import { firestore, auth } from './database';
 const productModel = {
 	/** Returns an array of users */
 	getCategories(name) {
@@ -29,6 +29,10 @@ const productModel = {
 			.get();
 	},
 
+	getItems(collection) {
+		return firestore.collection(collection).get();
+	},
+
 	getItemOrderbyLimit(
 		collection: string,
 		orderby: string,
@@ -48,14 +52,13 @@ const productModel = {
 		collection: string,
 		limit: number,
 		startAfter?: any,
-		filter?: string,
-		uid?: string
+		orderBy?: string
 	) {
 		return (
 			firestore
 				.collection(collection)
 				//.where(`${filter}`, '==', `${uid}`)
-				.orderBy('sku')
+				.orderBy(orderBy)
 				.startAfter(startAfter)
 				.limit(limit)
 		);

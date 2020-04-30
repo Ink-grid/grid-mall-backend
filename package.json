@@ -1,7 +1,7 @@
 {
-	"name": "nevado_back_new",
+	"name": "gridmallvs",
 	"version": "1.0.0",
-	"description": "nevado_back_new is the ultimate backend solution",
+	"description": "grimall is the ultimate backend solution",
 	"main": "src/server.js",
 	"scripts": {
 		"setup": "npm install && npm update",
@@ -17,6 +17,9 @@
 		"nevado_back_new"
 	],
 	"license": "ARTISTIC-2.0",
+	"resolutions": {
+		"apollo-link": "^1.2.14"
+	},
 	"dependencies": {
 		"@types/express": "^4.17.1",
 		"cookie-parser": "^1.4.4",
@@ -25,7 +28,7 @@
 		"express-custom-error": "^1.8.4",
 		"express-graphql": "^0.9.0",
 		"firebase-admin": "^8.10.0",
-		"graphql": "^15.0.0",
+		"graphql": "^14.6.0",
 		"graphql-tools": "^4.0.7",
 		"has-keys": "^0.1.0",
 		"helmet": "^3.21.2",
