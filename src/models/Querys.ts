@@ -5,7 +5,7 @@ import { firestore, FieldValue } from './database';
 interface Conditional {
 	name: string;
 	operator: any;
-	iqual: string;
+	iqual: any;
 }
 
 export default class Querys {

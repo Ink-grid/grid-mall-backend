@@ -99,6 +99,16 @@ class Product {
 			return false;
 		}
 	}
+
+	public async deteledPProduct(doc: string) {
+		try {
+			await this.query.deletedItem(doc);
+			return true;
+		} catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
 }
 
 export default Product;

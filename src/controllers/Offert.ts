@@ -58,6 +58,18 @@ export default class Offert {
 		}
 		return false;
 	}
+
+	async getOffetsAll() {
+		let response = await this.query.getItems();
+		let offerts = [];
+		if (response) {
+			response.forEach(offert => {
+				offerts.push(offert.data());
+			});
+		}
+		return offerts;
+	}
+
 	async setOffert(data?: offert) {
 		let uid = await this.query.addItem(data || this.offert);
 		await this.query.setItemsUid(uid.id, '_uid');

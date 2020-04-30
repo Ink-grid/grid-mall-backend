@@ -14,6 +14,9 @@ const typeDesf = `
         client(_uid: String): [Client!]
         order(_uid: String!): [Order]
         getOrders: [Order]
+        getOrderActive: [Order]
+        getOrderInactive: [Order]
+        getOffertsAll: [Oferta]
         getProductsAll: [Product]
     }
 
@@ -26,6 +29,11 @@ const typeDesf = `
         createClient(input: ClientInput!): Client
         createOrder(input: OrderInput!): Order
         createDirection(input: directionInput!) : direction
+        deletedCategory(uid: String!) : Boolean
+        deletedProduct(sku: String!): Boolean
+        deletedWarehouse(uid: String!): Boolean
+        detetedProviders(uid: String!): Boolean
+        detetedOfert(uid: String!): Boolean
         updateQuantity(sku: String!, quantity: Int): Boolean 
 
     }

@@ -47,6 +47,10 @@ export const resolvers = {
 			//console.log(response);
 		},
 
+		getOffertsAll: async () => {
+			return await new Offert().getOffetsAll();
+		},
+
 		getProductsAll: async () => {
 			return await new Product().getPoductAll();
 		},
@@ -56,6 +60,13 @@ export const resolvers = {
 		},
 		getOrders: async () => {
 			return await new Order().getOrders();
+		},
+
+		getOrderActive: async () => {
+			return await new Order().getOrdersActive();
+		},
+		getOrderInactive: async () => {
+			return await new Order().getOrdersInactive();
 		}
 	},
 	Mutation: {
@@ -105,6 +116,31 @@ export const resolvers = {
 			let uid = await new Order(input).setOrder();
 			input._uid = uid;
 			return input;
+		},
+
+		async deletedCategory(_, { uid }) {
+			let response = await new Category().deleteCategory(uid);
+			return response;
+		},
+
+		async deletedWarehouse(_, { uid }) {
+			let response = await new Warehose().deleteWarehose(uid);
+			return response;
+		},
+
+		async detetedProviders(_, { uid }) {
+			let response = await new Provider().deleteProvider(uid);
+			return response;
+		},
+
+		async detetedOfert(_, { uid }) {
+			let response = await new Offert().deletedOffert(uid);
+			return response;
+		},
+
+		async deletedProduct(_, { sku }) {
+			let response = await new Product().deteledPProduct(sku);
+			return response;
 		},
 		async updateQuantity(_, { sku, quantity }) {
 			const status = new Product().updateQuantity(sku, quantity);

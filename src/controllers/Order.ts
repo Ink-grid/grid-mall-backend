@@ -36,6 +36,36 @@ export default class Order {
 		return orders;
 	}
 
+	async getOrdersActive() {
+		let response = await this.querys.getItemsbyConditional({
+			name: 'state',
+			operator: '==',
+			iqual: false
+		});
+		let orderAcives = [];
+		if (response) {
+			response.forEach(order => {
+				orderAcives.push(order.data());
+			});
+		}
+		return orderAcives;
+	}
+
+	async getOrdersInactive() {
+		let response = await this.querys.getItemsbyConditional({
+			name: 'state',
+			operator: '==',
+			iqual: true
+		});
+		let orderInactive = [];
+		if (response) {
+			response.forEach(order => {
+				orderInactive.push(order.data());
+			});
+		}
+		return orderInactive;
+	}
+
 	async getOrderByClient(client: string) {
 		let response = await this.querys.getItemsbyConditional({
 			name: 'client',
