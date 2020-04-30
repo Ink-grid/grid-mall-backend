@@ -34,7 +34,7 @@ const { PORT } = process.env;
 const app = express();
 
 // prueba shema
-
+app.use(cors());
 // use Graphql
 app.use(
 	'/graphql/inkmarket',
@@ -53,7 +53,6 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(cors());
 app.use(helmet());
 
 // This middleware adds the json header to every response
