@@ -47,6 +47,10 @@ export const resolvers = {
 			//console.log(response);
 		},
 
+		getProductsAll: async () => {
+			return await new Product().getPoductAll();
+		},
+
 		directions: async (_, { uid }) => {
 			return await new Client().getDirectionCLient(uid);
 		},

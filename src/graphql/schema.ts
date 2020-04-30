@@ -14,6 +14,7 @@ const typeDesf = `
         client(_uid: String): [Client!]
         order(_uid: String!): [Order]
         getOrders: [Order]
+        getProductsAll: [Product]
     }
 
     type Mutation {

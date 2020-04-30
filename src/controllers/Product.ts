@@ -54,6 +54,18 @@ class Product {
 		}
 	}
 
+	public async getPoductAll() {
+		let response = await this.query.getItems();
+		let products = [];
+		if (response) {
+			response.forEach(product => {
+				products.push(product.data());
+			});
+		}
+
+		return products;
+	}
+
 	public async getProdut(doc: string) {
 		let product = await this.query.getItem(doc);
 		if (product.exists) {
