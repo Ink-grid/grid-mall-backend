@@ -59,7 +59,7 @@ export default class Warehose {
 	async deleteWarehose(doc: string) {
 		try {
 			await this.query.deletedItem(doc);
-			return false;
+			return true;
 		} catch (error) {
 			console.log(error);
 			return false;
