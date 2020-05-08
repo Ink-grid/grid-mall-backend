@@ -12,6 +12,8 @@ import GraphHTTP from 'express-graphql';
 
 // import { Server } from 'http';
 import env from 'mandatoryenv';
+
+//import express from '@react-ssr/express'
 import express from 'express';
 import morgan from 'morgan';
 // Getting base GraphQL Schema
@@ -32,9 +34,12 @@ const { PORT } = process.env;
 // Instantiate an Express Application
 
 const app = express();
+app.use(cors());
+
+//app.use(express.static('dist'));
 
 // prueba shema
-app.use(cors());
+
 // use Graphql
 app.use(
 	'/graphql/inkmarket',

@@ -38,7 +38,7 @@ export default class Provider {
 
 	async setProvider(data?: string) {
 		let uid = await this.query.addItem(data || this.provider);
-		await this.query.setItemsUid(uid.id, 'ruc');
+		await this.query.setItemsUid(uid.id, '_uid');
 		return uid.id;
 	}
 

@@ -61,12 +61,14 @@ export const resolvers = {
 		getOrders: async () => {
 			return await new Order().getOrders();
 		},
-
 		getOrderActive: async () => {
 			return await new Order().getOrdersActive();
 		},
 		getOrderInactive: async () => {
 			return await new Order().getOrdersInactive();
+		},
+		getAccess: async (_, { type }) => {
+			return await new Client().getRoute(type);
 		}
 	},
 	Mutation: {

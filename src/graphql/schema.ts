@@ -18,6 +18,7 @@ const typeDesf = `
         getOrderInactive: [Order]
         getOffertsAll: [Oferta]
         getProductsAll: [Product]
+        getAccess(type: String!): [Access] 
     }
 
     type Mutation {
@@ -114,6 +115,13 @@ const typeDesf = `
         sku: String!
         quantity: Int!
         price: Float! 
+   }
+
+   type Access {
+        icon: String
+        typeIcon: String
+        name: String
+        route: String
    }
 
    type Order {

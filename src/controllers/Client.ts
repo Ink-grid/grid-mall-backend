@@ -105,4 +105,29 @@ export default class Client {
 			return true;
 		}
 	}
+
+	// funcion ecmascript 5
+	// public async getRoute(){logica}
+	// arroy fuction or funciones flecha
+	// ecamscript 6 nueva funcionalidad
+	public getRoute = async (type: string) => {
+		try {
+			let acces = [];
+
+			const response = await this.query.getItemsbyConditional(
+				{ name: 'type', operator: '==', iqual: type },
+				50,
+				'accesUsers'
+			);
+			if (response) {
+				response.forEach(route => {
+					acces.push(route.data());
+				});
+			}
+			return acces;
+		} catch (error) {
+			console.log(error);
+			return false;
+		}
+	};
 }
