@@ -67,6 +67,4 @@ export default class Category {
 			return false;
 		}
 	}
-
-	public async;
 }
