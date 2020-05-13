@@ -11,9 +11,11 @@ const typeDesf = `
         providers: [Providers!]!
         warehouses: [Warehouse!]!
         contratos: [Contrats]!
+        payment:[Pays]!
         directions(uid:String!): [direction!]
         client(_uid: String): [Client!]
         order(_uid: String!): [Order]
+        getPayments:[Pays]
         getContrats:[Contrats]
         getOrders: [Order]
         getOrderActive: [Order]
@@ -33,6 +35,8 @@ const typeDesf = `
         createOrder(input: OrderInput!): Order
         createDirection(input: directionInput!) : direction
         createContrato(input: ContratsInput!) : Contrats
+        createPayment(input: PaymentInput!) : Pays
+        deletedPayment(_uid: String!) : Boolean 
         deletedContrato(_uid: String!) : Boolean
         deletedCategory(uid: String!) : Boolean
         deletedProduct(sku: String!): Boolean
@@ -113,7 +117,21 @@ const typeDesf = `
         id_pedido: String
         quantity: Int
    }
-
+   input PaymentInput{
+	id_cliente: String
+	id_modopago: String
+	igv: Float
+	subtotal: Float
+	total: Float
+   }
+   type Pays{
+	_uid: String
+	id_cliente: String
+	id_modopago: String
+	igv: Float
+	subtotal: Float
+	total: Float
+   }
    type direction {
         _uid: String
         avenida: String

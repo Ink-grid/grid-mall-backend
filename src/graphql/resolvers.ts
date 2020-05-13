@@ -9,6 +9,7 @@ import Warehose from '@controllers/Warehose';
 import Client from '@controllers/Client';
 import Order from '@controllers/Order';
 import Contrats from '@controllers/Contrats';
+import Payments from '@controllers/Payment';
 
 async function forEach(array, callback, thisArg?) {
 	const promiseArray = [];
@@ -73,6 +74,9 @@ export const resolvers = {
 		},
 		getContrats: async () =>{
 			return await new Contrats().getContratos();
+		},
+		getPayments: async () =>{
+			return await new Payments().getPayments();
 		}
 		
 	},
@@ -160,6 +164,15 @@ export const resolvers = {
 		},
 		async deletedContrato(_, {_uid}){
 			let response =await new Contrats().deletedContratos(_uid);
+			return response;
+		},
+		async createPayment(_,{input}){
+			let uid = await new Payments(input).setPayments();
+			input._uid = uid;
+			return input;
+		},
+		async deletedPayment(_, {_uid}){
+			let response = await new Payments().deletedPayments(_uid);
 			return response;
 		}
 		
