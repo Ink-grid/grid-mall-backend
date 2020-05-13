@@ -10,9 +10,11 @@ const typeDesf = `
         ofertas(category: String!, limit: Int!, after: String): [Oferta!]!
         providers: [Providers!]!
         warehouses: [Warehouse!]!
+        contratos: [Contrats]!
         directions(uid:String!): [direction!]
         client(_uid: String): [Client!]
         order(_uid: String!): [Order]
+        getContrats:[Contrats]
         getOrders: [Order]
         getOrderActive: [Order]
         getOrderInactive: [Order]
@@ -30,6 +32,8 @@ const typeDesf = `
         createClient(input: ClientInput!): Client
         createOrder(input: OrderInput!): Order
         createDirection(input: directionInput!) : direction
+        createContrato(input: ContratsInput!) : Contrats
+        deletedContrato(_uid: String!) : Boolean
         deletedCategory(uid: String!) : Boolean
         deletedProduct(sku: String!): Boolean
         deletedWarehouse(uid: String!): Boolean
@@ -103,6 +107,13 @@ const typeDesf = `
            client: String!
    }
 
+   input ContratsInput {
+        id_origen: String
+        id_cliente: String
+        id_pedido: String
+        quantity: Int
+   }
+
    type direction {
         _uid: String
         avenida: String
@@ -115,6 +126,14 @@ const typeDesf = `
         sku: String!
         quantity: Int!
         price: Float! 
+   }
+
+   type Contrats {
+        _uid: String
+        id_origen: String
+        id_cliente: String
+        id_pedido: String
+        quantity: Int
    }
 
    type Access {

@@ -8,6 +8,7 @@ import Provider from '@controllers/Provider';
 import Warehose from '@controllers/Warehose';
 import Client from '@controllers/Client';
 import Order from '@controllers/Order';
+import Contrats from '@controllers/Contrats';
 
 async function forEach(array, callback, thisArg?) {
 	const promiseArray = [];
@@ -69,7 +70,11 @@ export const resolvers = {
 		},
 		getAccess: async (_, { type }) => {
 			return await new Client().getRoute(type);
+		},
+		getContrats: async () =>{
+			return await new Contrats().getContratos();
 		}
+		
 	},
 	Mutation: {
 		async createCategories(_, { input }) {
@@ -147,7 +152,17 @@ export const resolvers = {
 		async updateQuantity(_, { sku, quantity }) {
 			const status = new Product().updateQuantity(sku, quantity);
 			return status;
+		},
+		async createContrato(_, {input}){
+			let uid = await new Contrats(input).setContratos();
+			input._uid = uid;
+			return input
+		},
+		async deletedContrato(_, {_uid}){
+			let response =await new Contrats().deletedContratos(_uid);
+			return response;
 		}
+		
 	},
 
 	Category: {
