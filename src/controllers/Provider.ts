@@ -36,7 +36,7 @@ export default class Provider {
 		}
 	}
 
-	async setProvider(data?: string) {
+	async setProvider(data?: provider) {
 		let uid = await this.query.addItem(data || this.provider);
 		await this.query.setItemsUid(uid.id, '_uid');
 		return uid.id;
@@ -56,6 +56,23 @@ export default class Provider {
 		try {
 			await this.query.updateItem(doc, data);
 			return true;
+		} catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
+
+	async getProvideEJemplo() {
+		try {
+			const response = await this.query.getItems();
+			const providers = [];
+			if (response) {
+				response.forEach(element => {
+					providers.push(element.data());
+				});
+			}
+
+			return providers;
 		} catch (error) {
 			console.log(error);
 			return false;

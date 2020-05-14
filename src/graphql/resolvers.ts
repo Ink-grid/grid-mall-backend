@@ -33,6 +33,10 @@ export const resolvers = {
 		ofertas: async (_, { category, limit, after }) => {
 			return await new Offert().getOfferts(category, limit, after);
 		},
+		getEJemplo: async () => {
+			const respoer = await new Provider().getProvideEJemplo();
+			return respoer;
+		},
 		providers: async () => {
 			return await new Provider().getProviders();
 		},
@@ -64,11 +68,15 @@ export const resolvers = {
 		getOrderActive: async () => {
 			return await new Order().getOrdersActive();
 		},
-		getOrderInactive: async () => {
+		getOrderInadctive: async () => {
 			return await new Order().getOrdersInactive();
 		},
 		getAccess: async (_, { type }) => {
 			return await new Client().getRoute(type);
+		},
+
+		pruebaCategories: async () => {
+			return await new Category().getCategoriaPruea();
 		}
 	},
 	Mutation: {

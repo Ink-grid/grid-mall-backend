@@ -67,4 +67,20 @@ export default class Category {
 			return false;
 		}
 	}
+
+	public async getCategoriaPruea() {
+		try {
+			const response = await this.query.getItems();
+			const categories = [];
+			if (response) {
+				response.forEach(element => {
+					categories.push(element.data());
+				});
+			}
+			return categories;
+		} catch (error) {
+			console.log(error);
+			return false;
+		}
+	}
 }

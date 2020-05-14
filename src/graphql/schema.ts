@@ -5,6 +5,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 import { resolvers } from './resolvers';
 const typeDesf = `
     type Query {
+        pruebaCategories : [PruebaCategory!]
         categories : [Category!]!
         products(category: String!, limit: Int!, after: String): [Product!]!
         ofertas(category: String!, limit: Int!, after: String): [Oferta!]!
@@ -15,10 +16,11 @@ const typeDesf = `
         order(_uid: String!): [Order]
         getOrders: [Order]
         getOrderActive: [Order]
-        getOrderInactive: [Order]
+        getOrderInadctive: [Order]
         getOffertsAll: [Oferta]
         getProductsAll: [Product]
         getAccess(type: String!): [Access] 
+        getEJemplo: [Ejemplo]      
     }
 
     type Mutation {
@@ -103,6 +105,14 @@ const typeDesf = `
            client: String!
    }
 
+  
+   type PruebaCategory {
+           _uid: String
+           description: String
+           title: String
+           uri: String
+   }
+
    type direction {
         _uid: String
         avenida: String
@@ -115,6 +125,15 @@ const typeDesf = `
         sku: String!
         quantity: Int!
         price: Float! 
+   }
+
+   type Ejemplo {
+        ruc: String!
+        razon_social: String!
+        direction: String!
+        category: Category
+        phone: String!
+        email: String
    }
 
    type Access {
@@ -162,7 +181,6 @@ const typeDesf = `
            category: Category
            phone: String!
            email: String
-
    }
     
     type Oferta {
