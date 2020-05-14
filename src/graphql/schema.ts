@@ -11,9 +11,13 @@ const typeDesf = `
         ofertas(category: String!, limit: Int!, after: String): [Oferta!]!
         providers: [Providers!]!
         warehouses: [Warehouse!]!
+        contratos: [Contrats]!
+        payment:[Pays]!
         directions(uid:String!): [direction!]
         client(_uid: String): [Client!]
         order(_uid: String!): [Order]
+        getPayments:[Pays]
+        getContrats:[Contrats]
         getOrders: [Order]
         getOrderActive: [Order]
         getOrderInadctive: [Order]
@@ -32,6 +36,10 @@ const typeDesf = `
         createClient(input: ClientInput!): Client
         createOrder(input: OrderInput!): Order
         createDirection(input: directionInput!) : direction
+        createContrato(input: ContratsInput!) : Contrats
+        createPayment(input: PaymentInput!) : Pays
+        deletedPayment(_uid: String!) : Boolean 
+        deletedContrato(_uid: String!) : Boolean
         deletedCategory(uid: String!) : Boolean
         deletedProduct(sku: String!): Boolean
         deletedWarehouse(uid: String!): Boolean
@@ -105,14 +113,27 @@ const typeDesf = `
            client: String!
    }
 
-  
-   type PruebaCategory {
-           _uid: String
-           description: String
-           title: String
-           uri: String
+   input ContratsInput {
+        id_origen: String
+        id_cliente: String
+        id_pedido: String
+        quantity: Int
    }
-
+   input PaymentInput{
+	id_cliente: String
+	id_modopago: String
+	igv: Float
+	subtotal: Float
+	total: Float
+   }
+   type Pays{
+	_uid: String
+	id_cliente: String
+	id_modopago: String
+	igv: Float
+	subtotal: Float
+	total: Float
+   }
    type direction {
         _uid: String
         avenida: String
@@ -127,13 +148,12 @@ const typeDesf = `
         price: Float! 
    }
 
-   type Ejemplo {
-        ruc: String!
-        razon_social: String!
-        direction: String!
-        category: Category
-        phone: String!
-        email: String
+   type Contrats {
+        _uid: String
+        id_origen: String
+        id_cliente: String
+        id_pedido: String
+        quantity: Int
    }
 
    type Access {
