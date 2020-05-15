@@ -5,7 +5,6 @@ import { makeExecutableSchema } from 'graphql-tools';
 import { resolvers } from './resolvers';
 const typeDesf = `
     type Query {
-        pruebaCategories : [PruebaCategory!]
         categories : [Category!]!
         products(category: String!, limit: Int!, after: String): [Product!]!
         ofertas(category: String!, limit: Int!, after: String): [Oferta!]!
@@ -14,17 +13,21 @@ const typeDesf = `
         contratos: [Contrats]!
         payment:[Pays]!
         directions(uid:String!): [direction!]
-        client(_uid: String): [Client!]
+        getClient(uid: String): Client
+        getClients: [Client!]
         order(_uid: String!): [Order]
         getPayments:[Pays]
         getContrats:[Contrats]
         getOrders: [Order]
+        getUsers: [User]
+        getUser(uid: String!): User
         getOrderActive: [Order]
         getOrderInadctive: [Order]
         getOffertsAll: [Oferta]
         getProductsAll: [Product]
-        getAccess(type: String!): [Access] 
-        getEJemplo: [Ejemplo]      
+        getAccess(uid: String!): [Access]   
+        getTypeClients: [TypeClient!]!
+        getTypeClient(uid: String!): TypeClient
     }
 
     type Mutation {
@@ -33,7 +36,7 @@ const typeDesf = `
         createOfertas(input: OffertInput!): Oferta
         createProviders(input: ProvidersInput!) : Providers
         createWarehouse(input: WarehouseInput!): Warehouse
-        createClient(input: ClientInput!): Client
+        createClient(input: ClientInput!): Boolean
         createOrder(input: OrderInput!): Order
         createDirection(input: directionInput!) : direction
         createContrato(input: ContratsInput!) : Contrats
@@ -46,7 +49,9 @@ const typeDesf = `
         detetedProviders(uid: String!): Boolean
         detetedOfert(uid: String!): Boolean
         updateQuantity(sku: String!, quantity: Int): Boolean 
-
+        createUser(input: UserInput): Boolean
+        createAcess(input: AccessInput): Boolean
+        createTipoClient(input: TipoclientInput): Boolean
     }
 
     input CategoryInput {
@@ -88,14 +93,17 @@ const typeDesf = `
    }
 
    input ClientInput {
-           razon_social: String!
-           _uid: String!
-           phone: String!
-           email: String!
-           password: String!
-           quantity_family: Int!
-           direction: String
-           
+        uid: String!
+	tipo_client: String!
+        razon_social: String!
+        user: String!
+	ruc: String!
+	frecuencia_compra: String!
+	categories: [String]!
+	lugares_compra: String!
+	phone: String!
+	email: String!
+	direction: String!
    }
 
    input OrderInput {
@@ -126,6 +134,24 @@ const typeDesf = `
 	subtotal: Float
 	total: Float
    }
+   input UserInput {
+	type: String!
+	description: String
+   }
+
+   input AccessInput {
+        user: String
+        icon: String
+        typeIcon: String
+        name: String
+        route: String
+   }
+
+   input TipoclientInput {
+           name: String!
+           description: String!
+   }
+
    type Pays{
 	_uid: String
 	id_cliente: String
@@ -157,6 +183,8 @@ const typeDesf = `
    }
 
    type Access {
+        _uid:String
+        user: String
         icon: String
         typeIcon: String
         name: String
@@ -173,6 +201,13 @@ const typeDesf = `
         state: Boolean
    }
 
+   type User {
+        _uid: String!
+	access: [Access!]
+	type: String!
+	description: String
+   }
+
    type OrdersDetail {
         product: Product 
         quantity: Int
@@ -180,12 +215,17 @@ const typeDesf = `
    }
 
    type Client {
-           _uid: String
-           razon_social: String
-           phone: String
-           email: String
-           quantity_family: Int
-           direction: String
+        _uid: String!
+        tipo_client: TypeClient!
+        user: User!
+	razon_social: String!
+	ruc: String!
+	frecuencia_compra: String!
+	categories: [String]!
+	lugares_compra: String!
+	phone: String!
+	email: String!
+	direction: String!
    }
 
    type Warehouse {
@@ -201,6 +241,12 @@ const typeDesf = `
            category: Category
            phone: String!
            email: String
+   }
+
+   type TypeClient {
+        _uid: String
+	name: String
+	description: String
    }
     
     type Oferta {

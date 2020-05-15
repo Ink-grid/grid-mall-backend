@@ -10,6 +10,9 @@ import Client from '@controllers/Client';
 import Order from '@controllers/Order';
 import Contrats from '@controllers/Contrats';
 import Payments from '@controllers/Payment';
+import TypeCLient from '@controllers/TypeCLient';
+import User from '@controllers/User';
+import Access from '@controllers/Access';
 
 async function forEach(array, callback, thisArg?) {
 	const promiseArray = [];
@@ -35,18 +38,11 @@ export const resolvers = {
 		ofertas: async (_, { category, limit, after }) => {
 			return await new Offert().getOfferts(category, limit, after);
 		},
-		getEJemplo: async () => {
-			const respoer = await new Provider().getProvideEJemplo();
-			return respoer;
-		},
 		providers: async () => {
 			return await new Provider().getProviders();
 		},
 		warehouses: async () => {
 			return await new Warehose().getWarehoses();
-		},
-		client: async (_, { _uid }) => {
-			return await new Client().getClient(_uid);
 		},
 		order: async (_, { _uid }) => {
 			return await new Order().getOrderByClient(_uid);
@@ -73,14 +69,32 @@ export const resolvers = {
 		getOrderInadctive: async () => {
 			return await new Order().getOrdersInactive();
 		},
-		getAccess: async (_, { type }) => {
-			return await new Client().getRoute(type);
+		getAccess: async (_, { uid }) => {
+			return await new Client().getRoute(uid);
 		},
 		getContrats: async () => {
 			return await new Contrats().getContratos();
 		},
 		getPayments: async () => {
 			return await new Payments().getPayments();
+		},
+		getUsers: async () => {
+			return await new User().getUsers();
+		},
+		getUser: async (_, { uid }) => {
+			return await new User().getUser(uid);
+		},
+		getClient: async (_, { uid }) => {
+			return await new Client().getClient(uid);
+		},
+		getClients: async () => {
+			return await new Client().getClients();
+		},
+		getTypeClients: async () => {
+			return await new TypeCLient().getTypeclients();
+		},
+		getTypeClient: async (_, { uid }) => {
+			return await new TypeCLient().getTypeclient(uid);
 		}
 	},
 	Mutation: {
@@ -113,12 +127,7 @@ export const resolvers = {
 		},
 
 		async createClient(_, { input }) {
-			const status = await new Client(input).addClient(input._uid);
-			if (status) {
-				return input;
-			} else {
-				return {};
-			}
+			return await new Client(input).setClient(input.uid);
 		},
 
 		async createDirection(_, { input }) {
@@ -177,6 +186,16 @@ export const resolvers = {
 		async deletedPayment(_, { _uid }) {
 			let response = await new Payments().deletedPayments(_uid);
 			return response;
+		},
+		async createUser(_, { input }) {
+			return await new User(input).AddUser();
+		},
+		async createAcess(_, { input }) {
+			return await new Access(input).AddAcess();
+		},
+
+		async createTipoClient(_, { input }) {
+			return await new TypeCLient(input).AddTypeclient();
 		}
 	},
 
@@ -245,6 +264,20 @@ export const resolvers = {
 			// return await productsController.ControllerGraphql.getProductbyOferta(
 			// product
 			// );
+		}
+	},
+
+	Client: {
+		tipo_client: async ({ tipo_client }) => {
+			return await new TypeCLient().getTypeclient(tipo_client);
+		},
+		user: async ({ user }) => {
+			return await new User().getUser(user);
+		}
+	},
+	User: {
+		access: async ({ _uid }) => {
+			return await new Access().getAccessByconditional(_uid);
 		}
 	}
 };
