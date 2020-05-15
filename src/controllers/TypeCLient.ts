@@ -7,6 +7,7 @@ interface typecLient {
 	_uid: string;
 	name: string;
 	description: string;
+	uri: string;
 }
 
 export default class TypeCLient {

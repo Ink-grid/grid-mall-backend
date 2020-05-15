@@ -150,6 +150,7 @@ const typeDesf = `
    input TipoclientInput {
            name: String!
            description: String!
+           uri: String
    }
 
    type Pays{
@@ -246,7 +247,8 @@ const typeDesf = `
    type TypeClient {
         _uid: String
 	name: String
-	description: String
+        description: String
+        uri: String
    }
     
     type Oferta {
