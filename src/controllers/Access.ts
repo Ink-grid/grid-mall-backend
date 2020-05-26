@@ -11,6 +11,11 @@ interface access {
 	route: string;
 }
 
+type AccessData = {
+	client: any;
+	access: any[];
+};
+
 export default class Category {
 	private access: access;
 
@@ -38,19 +43,29 @@ export default class Category {
 		return false;
 	};
 
-	public getAccessByconditional = async (iqual: string) => {
+	public getAccessByconditional = async (
+		tokenAccess: string,
+		tokenUser: string
+	) => {
 		const response = await this.captureError.captureErrorCollention(
 			this.query.getItemsbyConditional({
 				name: 'user',
 				operator: '==',
-				iqual: iqual
+				iqual: tokenAccess
 			})
 		);
-		if (response) {
-			const access = [];
+
+		const client = await this.captureError.captureErrorDocument(
+			this.query.getItem(tokenUser, 'clients')
+		);
+		if (response && client) {
+			let access: AccessData = { client: null, access: [] };
+			// console.log('acces', access);
 			response.forEach(acces => {
-				access.push(acces.data());
+				access.access.push(acces.data());
 			});
+			access.client = client.data();
+			// console.log('debug dasd', access);
 			return access;
 		}
 	};

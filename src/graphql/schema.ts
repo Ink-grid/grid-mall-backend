@@ -14,7 +14,7 @@ const typeDesf = `
         payment:[Pays]!
         directions(uid:String!): [direction!]
         getClient(uid: String): Client
-        getClients: [Client!]
+        getClients: [Client]
         order(_uid: String!): [Order]
         getPayments:[Pays]
         getContrats:[Contrats]
@@ -25,7 +25,7 @@ const typeDesf = `
         getOrderInadctive: [Order]
         getOffertsAll: [Oferta]
         getProductsAll: [Product]
-        getAccess(uid: String!): [Access]   
+        getAccess(tokenAccess: String!, userToken: String!): Access   
         getTypeClients: [TypeClient!]!
         getTypeClient(uid: String!): TypeClient
     }
@@ -183,13 +183,18 @@ const typeDesf = `
         quantity: Int
    }
 
-   type Access {
+   type Accessdetail {
         _uid:String
         user: String
         icon: String
         typeIcon: String
         name: String
         route: String
+   }
+
+   type Access {
+        client: Client 
+        access: [Accessdetail]
    }
 
    type Order {
@@ -204,7 +209,6 @@ const typeDesf = `
 
    type User {
         _uid: String!
-	access: [Access!]
 	type: String!
 	description: String
    }
@@ -216,11 +220,11 @@ const typeDesf = `
    }
 
    type Client {
-        _uid: String!
+        uid: String!
         tipo_client: TypeClient!
         user: User!
 	razon_social: String!
-	ruc: String!
+        ruc: String!
 	frecuencia_compra: String!
 	categories: [String]!
 	lugares_compra: String!

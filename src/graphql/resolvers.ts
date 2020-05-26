@@ -69,8 +69,8 @@ export const resolvers = {
 		getOrderInadctive: async () => {
 			return await new Order().getOrdersInactive();
 		},
-		getAccess: async (_, { uid }) => {
-			return await new Client().getRoute(uid);
+		getAccess: async (_, { tokenAccess, userToken }) => {
+			return await new Access().getAccessByconditional(tokenAccess, userToken);
 		},
 		getContrats: async () => {
 			return await new Contrats().getContratos();
@@ -88,7 +88,9 @@ export const resolvers = {
 			return await new Client().getClient(uid);
 		},
 		getClients: async () => {
-			return await new Client().getClients();
+			const resul = await new Client().getClients();
+			console.log('debug', resul);
+			return resul;
 		},
 		getTypeClients: async () => {
 			return await new TypeCLient().getTypeclients();
@@ -274,10 +276,10 @@ export const resolvers = {
 		user: async ({ user }) => {
 			return await new User().getUser(user);
 		}
-	},
-	User: {
-		access: async ({ _uid }) => {
-			return await new Access().getAccessByconditional(_uid);
-		}
 	}
+	// User: {
+	// access: async ({ _uid }) => {
+	// return await new Access().getAccessByconditional(_uid);
+	// }
+	// }
 };
