@@ -137,6 +137,7 @@ const typeDesf = `
    input UserInput {
         type: String!
         uri: String!
+        navigate: String!
 	description: String
    }
 
@@ -212,6 +213,7 @@ const typeDesf = `
         _uid: String!
         type: String!
         uri: String!
+        navigate: String!
 	description: String
    }
 
