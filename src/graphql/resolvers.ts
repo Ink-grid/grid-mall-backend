@@ -39,7 +39,9 @@ export const resolvers = {
 			return await new Offert().getOfferts(category, limit, after);
 		},
 		providers: async () => {
-			return await new Provider().getProviders();
+			const response = await new Provider().getProviders();
+			console.log(response);
+			return response;
 		},
 		warehouses: async () => {
 			return await new Warehose().getWarehoses();
@@ -118,9 +120,7 @@ export const resolvers = {
 			return input;
 		},
 		async createProviders(_, { input }) {
-			let uid = await new Provider(input).setProvider();
-			input.ruc = uid;
-			return input;
+			return await new Provider(input).setProvider();
 		},
 		async createWarehouse(_, { input }) {
 			let uid = await new Warehose(input).setWarehose();
@@ -252,11 +252,14 @@ export const resolvers = {
 	},
 
 	Providers: {
-		category: async ({ category }) => {
-			return await new Category().getCategory(category);
-			// return await productsController.ControllerGraphql.getCategoryGql(
-			// category
-			// );
+		// category: async ({ category }) => {
+		// 	return await new Category().getCategory(category);
+		// 	// return await productsController.ControllerGraphql.getCategoryGql(
+		// 	// category
+		// 	// );
+		// },
+		user: async ({ user }) => {
+			return await new User().getUser(user);
 		}
 	},
 

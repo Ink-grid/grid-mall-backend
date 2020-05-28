@@ -1,12 +1,14 @@
 /** @format */
 
 import Querys from '@models/Querys';
+import CaptureError from '../utils';
 
 interface provider {
 	ruc: String;
+	user: string;
 	razon_social: String;
 	direction: String;
-	category: String;
+	category: [String];
 	phone: String;
 	email: String;
 }
@@ -20,12 +22,16 @@ export default class Provider {
 
 	private query = new Querys('providers');
 
+	//[*] intaciamos la clase  @CaptureError que nos permite capturar errors en nuestra consulta
+	private captureError = new CaptureError();
+
 	async getProviders() {
 		let response = await this.query.getItems();
 		let providers = [];
 		response.forEach(provider => {
 			providers.push(provider.data());
 		});
+		console.log(providers);
 		return providers;
 	}
 
@@ -37,9 +43,14 @@ export default class Provider {
 	}
 
 	async setProvider(data?: provider) {
-		let uid = await this.query.addItem(data || this.provider);
-		await this.query.setItemsUid(uid.id, '_uid');
-		return uid.id;
+		let uid = await this.captureError.captureErrorAdditem(
+			this.query.addItem(data || this.provider)
+		);
+		if (uid) {
+			await this.query.setItemsUid(uid.id, '_uid');
+			return true;
+		}
+		return false;
 	}
 
 	async deleteProvider(doc: string) {

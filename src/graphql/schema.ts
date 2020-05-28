@@ -34,7 +34,7 @@ const typeDesf = `
         createCategories(input: CategoryInput!) : Category
         createProduct(input: ProductInput!) : Product
         createOfertas(input: OffertInput!): Oferta
-        createProviders(input: ProvidersInput!) : Providers
+        createProviders(input: ProvidersInput!) : Boolean
         createWarehouse(input: WarehouseInput!): Warehouse
         createClient(input: ClientInput!): Boolean
         createOrder(input: OrderInput!): Order
@@ -80,11 +80,12 @@ const typeDesf = `
 
    input ProvidersInput {
            ruc: String!
-           category: String!
+           user: String!
+           category: [String]!
            razon_social: String!
            direction: String!
            phone: String!
-           email: String
+           email: String!
    }
 
    input WarehouseInput {
@@ -244,11 +245,12 @@ const typeDesf = `
    }
 
    type Providers {
-           ruc: String!
-           razon_social: String!
-           direction: String!
-           category: Category
-           phone: String!
+           ruc: String
+           user: User
+           razon_social: String
+           direction: String
+           category: [ String ]
+           phone: String
            email: String
    }
 
