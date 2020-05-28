@@ -45,7 +45,7 @@ export default class Provider {
 
 	async setProvider(data?: provider) {
 		return await this.captureError.catureErrorsetItem(
-			this.query.setItem(data.uid, data || this.provider)
+			this.query.setItem(this.provider.uid, data || this.provider)
 		);
 	}
 
