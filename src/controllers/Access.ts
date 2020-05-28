@@ -58,16 +58,52 @@ export default class Category {
 		const client = await this.captureError.captureErrorDocument(
 			this.query.getItem(tokenUser, 'clients')
 		);
-		if (response && client) {
-			let access: AccessData = { client: null, access: [] };
+
+		let access: AccessData = { client: null, access: [] };
+
+		if (response) {
 			// console.log('acces', access);
 			response.forEach(acces => {
 				access.access.push(acces.data());
 			});
-			access.client = client.data();
-			// console.log('debug dasd', access);
-			return access;
+			if (client) {
+				if (client.exists) {
+					access.client = client.data();
+					// console.log('debug dasd', access);
+					return access;
+				} else {
+					let provider = await this.captureError.captureErrorDocument(
+						this.query.getItem(tokenUser, 'providers')
+					);
+					if (provider) {
+						if (provider.exists) {
+							access.client = provider.data();
+							console.log(access);
+							return access;
+						}
+					}
+				}
+			}
 		}
+
+		// if(client){
+		// 	if(client.exists){
+
+		// 	}
+		// }
+
+		// console.log(client);
+
+		// if (response && client) {
+		// 	let access: AccessData = { client: null, access: [] };
+		// 	// console.log('acces', access);
+		// 	response.forEach(acces => {
+		// 		access.access.push(acces.data());
+		// 	});
+		// 	access.client = client.data();
+		// 	// console.log('debug dasd', access);
+		// 	return access;
+		// }
 	};
 
 	public getAcces = async (uid: string) => {

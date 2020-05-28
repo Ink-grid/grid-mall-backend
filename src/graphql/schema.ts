@@ -79,6 +79,7 @@ const typeDesf = `
    }
 
    input ProvidersInput {
+           uid: String!
            ruc: String!
            user: String!
            category: [String]!
@@ -245,6 +246,7 @@ const typeDesf = `
    }
 
    type Providers {
+           uid: String!
            ruc: String
            user: User
            razon_social: String

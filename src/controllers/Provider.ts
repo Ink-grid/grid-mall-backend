@@ -5,6 +5,7 @@ import CaptureError from '../utils';
 
 interface provider {
 	ruc: String;
+	uid: string;
 	user: string;
 	razon_social: String;
 	direction: String;
@@ -43,14 +44,9 @@ export default class Provider {
 	}
 
 	async setProvider(data?: provider) {
-		let uid = await this.captureError.captureErrorAdditem(
-			this.query.addItem(data || this.provider)
+		return await this.captureError.catureErrorsetItem(
+			this.query.setItem(data.uid, data || this.provider)
 		);
-		if (uid) {
-			await this.query.setItemsUid(uid.id, '_uid');
-			return true;
-		}
-		return false;
 	}
 
 	async deleteProvider(doc: string) {
