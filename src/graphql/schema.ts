@@ -135,7 +135,8 @@ const typeDesf = `
 	total: Float
    }
    input UserInput {
-	type: String!
+        type: String!
+        uri: String!
 	description: String
    }
 
@@ -209,7 +210,8 @@ const typeDesf = `
 
    type User {
         _uid: String!
-	type: String!
+        type: String!
+        uri: String!
 	description: String
    }
 
