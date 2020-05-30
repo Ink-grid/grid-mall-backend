@@ -80,6 +80,14 @@ export default class Category {
 							access.client = provider.data();
 							console.log(access);
 							return access;
+						} else {
+							let logistica = await this.captureError.captureErrorDocument(
+								this.query.getItem(tokenUser, 'logistica')
+							);
+							if (logistica) {
+								access.client = logistica.data();
+								return access;
+							}
 						}
 					}
 				}

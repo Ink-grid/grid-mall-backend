@@ -25,6 +25,10 @@ const typeDesf = `
         getOrderInadctive: [Order]
         getOffertsAll: [Oferta]
         getProductsAll: [Product]
+        getLogisticas: [Logistica]
+        getTypeLogisticas: [TypeLogistica]
+        getLogistica(uid: String!): Logistica
+        getTypeLogistica(uid: String!): TypeLogistica
         getAccess(tokenAccess: String!, userToken: String!): Access   
         getTypeClients: [TypeClient!]!
         getTypeClient(uid: String!): TypeClient
@@ -32,6 +36,8 @@ const typeDesf = `
 
     type Mutation {
         createCategories(input: CategoryInput!) : Category
+        createLogistica(input: LogisticaInput!): Boolean
+        createTypeLogistica(input: TypeLogisticaInput): Boolean
         createProduct(input: ProductInput!) : Product
         createOfertas(input: OffertInput!): Oferta
         createProviders(input: ProvidersInput!) : Boolean
@@ -157,6 +163,23 @@ const typeDesf = `
            uri: String
    }
 
+   input TypeLogisticaInput {
+	name: String
+	uri: String
+	description: String
+   }
+
+   input LogisticaInput {
+        uid: String
+	user: String
+	tipo_client: String
+	razon_social: String
+	ruc: String
+	phone: String
+	email: String
+	direction: String  
+   }
+
    type Pays{
 	_uid: String
 	id_cliente: String
@@ -245,6 +268,22 @@ const typeDesf = `
         direction: String
    }
 
+   type Logistica {
+        uid: String
+	user: User
+	tipo_client: String
+	razon_social: String
+	ruc: String
+	phone: String
+	email: String
+	direction: String        
+   }
+   type TypeLogistica{
+        uid: String
+	name: String
+	uri: String
+	description: String
+   }
    type Providers {
            uid: String!
            ruc: String

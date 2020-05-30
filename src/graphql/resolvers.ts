@@ -13,6 +13,8 @@ import Payments from '@controllers/Payment';
 import TypeCLient from '@controllers/TypeCLient';
 import User from '@controllers/User';
 import Access from '@controllers/Access';
+import Logistica from '@controllers/Logistica';
+import TypeLogistica from '@controllers/TypeLogistica';
 
 async function forEach(array, callback, thisArg?) {
 	const promiseArray = [];
@@ -99,6 +101,18 @@ export const resolvers = {
 		},
 		getTypeClient: async (_, { uid }) => {
 			return await new TypeCLient().getTypeclient(uid);
+		},
+		getLogisticas: async () => {
+			return await new Logistica().getLosgisticas();
+		},
+		getTypeLogisticas: async () => {
+			return await new TypeLogistica().getLosgisticasusers();
+		},
+		getLogistica: async (_, { uid }) => {
+			return await new Logistica().getLogistica(uid);
+		},
+		getTypeLogistica: async (_, { uid }) => {
+			return await new TypeLogistica().getLogisticauser(uid);
 		}
 	},
 	Mutation: {
@@ -106,6 +120,14 @@ export const resolvers = {
 			let uid = await new Category(input).setCategory();
 			input._uid = uid;
 			return input;
+		},
+
+		async createLogistica(_, { input }) {
+			return await new Logistica(input).setLogistia(input.uid);
+		},
+
+		async createTypeLogistica(_, { input }) {
+			return await new TypeLogistica(input).addLogisticausers();
 		},
 
 		async createProduct(_, { input }) {
@@ -195,7 +217,6 @@ export const resolvers = {
 		async createAcess(_, { input }) {
 			return await new Access(input).AddAcess();
 		},
-
 		async createTipoClient(_, { input }) {
 			return await new TypeCLient(input).AddTypeclient();
 		}
@@ -258,6 +279,12 @@ export const resolvers = {
 		// 	// category
 		// 	// );
 		// },
+		user: async ({ user }) => {
+			return await new User().getUser(user);
+		}
+	},
+
+	Logistica: {
 		user: async ({ user }) => {
 			return await new User().getUser(user);
 		}
