@@ -32,6 +32,7 @@ const typeDesf = `
         getAccess(tokenAccess: String!, userToken: String!): Access   
         getTypeClients: [TypeClient!]!
         getTypeClient(uid: String!): TypeClient
+        getPricebyAddress: [AddressPrice]!
     }
 
     type Mutation {
@@ -43,7 +44,6 @@ const typeDesf = `
         createProviders(input: ProvidersInput!) : Boolean
         createWarehouse(input: WarehouseInput!): Warehouse
         createClient(input: ClientInput!): Boolean
-        createOrder(input: OrderInput!): Order
         createDirection(input: directionInput!) : direction
         createContrato(input: ContratsInput!) : Contrats
         createPayment(input: PaymentInput!) : Pays
@@ -58,6 +58,9 @@ const typeDesf = `
         createUser(input: UserInput): Boolean
         createAcess(input: AccessInput): Boolean
         createTipoClient(input: TipoclientInput): Boolean
+        createNewTransactionPayment(input: TypePayment!): Boolean
+        createPriceAddress(input: TypeAddressPrice): Boolean
+        updateClient(uid: String, input: UpdateCLient ): Boolean
     }
 
     input CategoryInput {
@@ -93,6 +96,30 @@ const typeDesf = `
            direction: String!
            phone: String!
            email: String!
+   }
+
+   input TypePayment {
+        email: String!
+        source: String!
+        price: Float!
+        order: OrderInputs!
+   }
+
+   input OrderInputs {
+        _uid: String!
+        products: [OrderDetails]!
+        price_total: Float!
+        direction: String!
+        distrito: String!
+        client: String!
+        quantity_total: Int!
+        state: Boolean!
+   }
+
+
+   input OrderDetails {
+        product: String 
+        quantity: Int
    }
 
    input WarehouseInput {
@@ -135,6 +162,12 @@ const typeDesf = `
         id_pedido: String
         quantity: Int
    }
+
+   input TypeAddressPrice {
+        location: String!
+        price: Float!
+        description: String!
+   }
    input PaymentInput{
 	id_cliente: String
 	id_modopago: String
@@ -147,6 +180,14 @@ const typeDesf = `
         uri: String!
         navigate: String!
 	description: String
+   }
+
+   input UpdateCLient {
+	razon_social: String!
+        ruc: String!
+        phone: String!
+	email: String!
+	direction: String!
    }
 
    input AccessInput {
@@ -228,7 +269,7 @@ const typeDesf = `
         _uid: String
 	products: [OrdersDetail]
         price_total: Float
-        direction: direction
+        direction: String
         client: Client
         quantity_total: Int
         state: Boolean
@@ -244,8 +285,7 @@ const typeDesf = `
 
    type OrdersDetail {
         product: Product 
-        quantity: Int
-        price: Float   
+        quantity: Int  
    }
 
    type Client {
@@ -284,6 +324,14 @@ const typeDesf = `
 	uri: String
 	description: String
    }
+
+   type AddressPrice {
+        _uid: String
+        price: Float
+        location: String
+        description: String
+   }
+
    type Providers {
            uid: String!
            ruc: String

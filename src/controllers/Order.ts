@@ -1,20 +1,22 @@
 /** @format */
 
 import Querys from '@models/Querys';
+import CaptureError from '../utils';
 
 type OrdersDetail = {
 	product: any;
 	quantity: number;
-	price: number;
 };
 
 interface order {
-	_uid: String;
+	_uid: string;
+	client: string;
 	products: [OrdersDetail];
 	price_total: number;
-	direction: String;
+	direction: string;
+	distrito: string;
 	quantity_total: number;
-	state?: boolean;
+	state: boolean;
 }
 
 export default class Order {
@@ -25,6 +27,9 @@ export default class Order {
 	}
 
 	private querys = new Querys('orders');
+
+	//[*] intaciamos la clase  @CaptureError que nos permite capturar errors en nuestra consulta
+	private captureError = new CaptureError();
 
 	async getOrders() {
 		let response = await this.querys.getItems();
@@ -89,17 +94,48 @@ export default class Order {
 		return false;
 	}
 
-	async setOrder(order?: order) {
-		this.Orders.state = false;
-		try {
-			let uid = await this.querys.addItem(order || this.Orders);
-			await this.querys.setItemsUid(uid.id, '_uid');
-			await this.querys.setDate(uid.id);
-			return uid.id;
-		} catch (error) {
-			console.log(error);
-			return false;
+	async getOrderPriceAddress() {
+		const response = await this.captureError.captureErrorCollention(
+			this.querys.getItems(50, 'distritos_precio')
+		);
+		let priceAdress = [];
+		if (response) {
+			response.forEach(elemen => {
+				priceAdress.push(elemen.data());
+			});
+			return priceAdress;
 		}
+		return false;
+	}
+
+	async addOrderPriceAddress(data: {
+		location: string;
+		price: number;
+		description?: string;
+	}) {
+		const response = await this.captureError.captureErrorAdditem(
+			this.querys.addItem(data, 'distritos_precio')
+		);
+		if (response) {
+			return await this.captureError.catureErrorupdateItem(
+				this.querys.setItemsUid(response.id, '_uid', 'distritos_precio')
+			);
+		}
+
+		return false;
+	}
+
+	async setOrder(state: boolean, uidOrder: string, order?: order) {
+		this.Orders.state = state;
+		return await this.captureError.catureErrorsetItem(
+			this.querys.setItem(uidOrder, order || this.Orders)
+		);
+		// if (response) {
+		// 	return await this.captureError.catureErrorupdateItem(
+		// 		this.querys.setItemsUid(uidOrder, '_uid')
+		// 	);
+		// }
+		// return false;
 	}
 
 	async deleteOder(doc: string) {

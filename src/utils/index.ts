@@ -5,6 +5,7 @@ import {
 	QuerySnapshot,
 	DocumentData
 } from '@google-cloud/firestore';
+import Stripe from 'stripe';
 
 //[*] clases para capturar errors en firebase.
 export default class CaptureError {
@@ -83,6 +84,28 @@ export default class CaptureError {
 			return true;
 		} catch (error) {
 			console.log(error);
+			return false;
+		}
+	};
+
+	//[*] funcion para capturar el erro pagos de stripe customer
+	public captureErrorStripeCustomer = async (
+		query: Promise<Stripe.Customer>
+	) => {
+		try {
+			return await query;
+		} catch (error) {
+			console.log('stripe customer error', error);
+			return false;
+		}
+	};
+
+	//[*] funcion para capturar el errro en stripe Promise<Stripe.Charge>
+	public captureErrorStripeCharge = async (query: Promise<Stripe.Charge>) => {
+		try {
+			return await query;
+		} catch (error) {
+			console.log('stripe charge error:', error);
 			return false;
 		}
 	};

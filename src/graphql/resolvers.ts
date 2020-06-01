@@ -15,6 +15,7 @@ import User from '@controllers/User';
 import Access from '@controllers/Access';
 import Logistica from '@controllers/Logistica';
 import TypeLogistica from '@controllers/TypeLogistica';
+import Pagos from '@controllers/Pagos';
 
 async function forEach(array, callback, thisArg?) {
 	const promiseArray = [];
@@ -113,6 +114,9 @@ export const resolvers = {
 		},
 		getTypeLogistica: async (_, { uid }) => {
 			return await new TypeLogistica().getLogisticauser(uid);
+		},
+		getPricebyAddress: async () => {
+			return await new Order().getOrderPriceAddress();
 		}
 	},
 	Mutation: {
@@ -159,11 +163,11 @@ export const resolvers = {
 			input._uid = uid;
 			return input;
 		},
-		async createOrder(_, { input }) {
-			let uid = await new Order(input).setOrder();
-			input._uid = uid;
-			return input;
-		},
+		// async createOrder(_, { input }) {
+		// 	let uid = await new Order(input).setOrder();
+		// 	input._uid = uid;
+		// 	return input;
+		// },
 
 		async deletedCategory(_, { uid }) {
 			let response = await new Category().deleteCategory(uid);
@@ -198,6 +202,9 @@ export const resolvers = {
 			input._uid = uid;
 			return input;
 		},
+		async updateClient(_, { uid, input }) {
+			return await new Client().updateClient(uid, input);
+		},
 		async deletedContrato(_, { _uid }) {
 			let response = await new Contrats().deletedContratos(_uid);
 			return response;
@@ -219,6 +226,20 @@ export const resolvers = {
 		},
 		async createTipoClient(_, { input }) {
 			return await new TypeCLient(input).AddTypeclient();
+		},
+		async createPriceAddress(_, { input }) {
+			return await new Order().addOrderPriceAddress(input);
+		},
+		async createNewTransactionPayment(_, { input }) {
+			const uidOrder = await new Pagos().setPagoStripe(
+				input.email,
+				input.source,
+				input.price
+			);
+			if (uidOrder) {
+				return await new Order().setOrder(true, uidOrder, input.order);
+			}
+			return false;
 		}
 	},
 
@@ -263,9 +284,9 @@ export const resolvers = {
 			return newproducts;
 		},
 
-		direction: async ({ direction }) => {
-			return await new Client().getDIrection(direction);
-		},
+		// direction: async ({ direction }) => {
+		// 	return await new Client().getDIrection(direction);
+		// },
 
 		client: async ({ client }) => {
 			return await new Client().getClient(client);
