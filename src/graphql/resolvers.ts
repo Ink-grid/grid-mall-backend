@@ -237,7 +237,7 @@ export const resolvers = {
 				input.price
 			);
 			if (uidOrder) {
-				input._uid = uidOrder;
+				//input._uid = uidOrder;
 				return await new Order().setOrder(true, uidOrder, input.order);
 			}
 			return false;
@@ -273,12 +273,11 @@ export const resolvers = {
 
 			// [*] foreach asyn for get product by sku
 			await forEach(products, async element => {
-				const product = await new Product().getProdut(element.sku);
+				const product = await new Product().getProdut(element.product);
 				if (product) {
 					newproducts.push({
 						product: product,
-						quantity: element.quantity,
-						price: element.price
+						quantity: element.quantity
 					});
 				}
 			});
