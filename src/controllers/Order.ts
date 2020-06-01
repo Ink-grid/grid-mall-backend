@@ -9,7 +9,6 @@ type OrdersDetail = {
 };
 
 interface order {
-	_uid: string;
 	client: string;
 	products: [OrdersDetail];
 	price_total: number;
@@ -126,7 +125,7 @@ export default class Order {
 	}
 
 	async setOrder(state: boolean, uidOrder: string, order?: order) {
-		this.Orders.state = state;
+		order.state = state;
 		return await this.captureError.catureErrorsetItem(
 			this.querys.setItem(uidOrder, order || this.Orders)
 		);
