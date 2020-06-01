@@ -237,6 +237,7 @@ export const resolvers = {
 				input.price
 			);
 			if (uidOrder) {
+				input._uid = uidOrder;
 				return await new Order().setOrder(true, uidOrder, input.order);
 			}
 			return false;

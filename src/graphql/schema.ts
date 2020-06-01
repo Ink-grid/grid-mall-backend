@@ -106,7 +106,6 @@ const typeDesf = `
    }
 
    input OrderInputs {
-        _uid: String!
         products: [OrderDetails]!
         price_total: Float!
         direction: String!
