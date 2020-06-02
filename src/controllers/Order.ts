@@ -153,7 +153,7 @@ export default class Order {
 
 	async getEstatusOrder(uid: string) {
 		const status = await this.captureError.captureErrorDocument(
-			this.querys.getItem(uid)
+			this.querys.getItem(uid, 'estatus_pedidos')
 		);
 		if (status) {
 			return status.data();
