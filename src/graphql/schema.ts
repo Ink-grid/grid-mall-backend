@@ -316,15 +316,9 @@ const typeDesf = `
         price_total: Float
         direction: String
         client: Client
-        statePedido: StatePedido
+        statePedido: EstatusOrder
         quantity_total: Int
         state: Boolean
-   }
-
-   type StatePedido {
-           _uid: String
-           description: String
-           type: String
    }
 
    type User {
