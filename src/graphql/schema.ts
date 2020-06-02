@@ -33,6 +33,9 @@ const typeDesf = `
         getTypeClients: [TypeClient!]!
         getTypeClient(uid: String!): TypeClient
         getPricebyAddress: [AddressPrice]!
+        getEstatusOrders: [EstatusOrder]
+        getCotizacionByclient(uid: String!): [Cotizacion]
+        getCotizacionByactive: [Cotizacion]
     }
 
     type Mutation {
@@ -60,7 +63,10 @@ const typeDesf = `
         createTipoClient(input: TipoclientInput): Boolean
         createNewTransactionPayment(input: TypePayment!): Boolean
         createPriceAddress(input: TypeAddressPrice): Boolean
-        updateClient(uid: String, input: UpdateCLient ): Boolean
+        createEstatusOrder(input: EstatusOrderInput): Boolean
+        createCotizacion(input: CotizacionInput): Boolean
+        updateClient(uid: String!, input: UpdateCLient! ): Boolean
+        createOrder(input: OrderInputs! ):Boolean
     }
 
     input CategoryInput {
@@ -111,10 +117,14 @@ const typeDesf = `
         direction: String!
         distrito: String!
         client: String!
+        statePedido: String!
         quantity_total: Int!
         state: Boolean!
    }
-
+   input EstatusOrderInput {
+        type: String!
+        description: String
+   }
 
    input OrderDetails {
         product: String 
@@ -182,11 +192,11 @@ const typeDesf = `
    }
 
    input UpdateCLient {
-	razon_social: String!
-        ruc: String!
-        phone: String!
-	email: String!
-	direction: String!
+	razon_social: String
+        ruc: String
+        phone: String
+	email: String
+	direction: String
    }
 
    input AccessInput {
@@ -201,6 +211,18 @@ const typeDesf = `
            name: String!
            description: String!
            uri: String
+   }
+
+   input CotizacionInput {
+        client: String
+	products: [CotizacionDetail]
+	state: Boolean
+   }
+
+   input CotizacionDetail {
+        name: String
+	quantity: Int
+	unidad_medida: String
    }
 
    input TypeLogisticaInput {
@@ -236,10 +258,30 @@ const typeDesf = `
         client: String
    }
 
+   type EstatusOrder {
+           _uid: String!
+           type: String!
+           description: String
+   }
+
    input ProducOrder {
         sku: String!
         quantity: Int!
         price: Float! 
+   }
+
+   type Cotizacion {
+        _uid: String
+        client: Client
+        createAt: String
+	products: [CotizacionDetails]
+	state: Boolean
+   }
+
+   type CotizacionDetails {
+        name: String
+	quantity: Int
+	unidad_medida: String
    }
 
    type Contrats {
@@ -266,12 +308,21 @@ const typeDesf = `
 
    type Order {
         _uid: String
+        distrito: String
+        createAt: String
 	products: [OrdersDetail]
         price_total: Float
         direction: String
         client: Client
+        statePedido: StatePedido
         quantity_total: Int
         state: Boolean
+   }
+
+   type StatePedido {
+           _uid: String
+           description: String
+           type: String
    }
 
    type User {

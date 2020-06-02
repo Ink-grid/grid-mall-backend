@@ -13,9 +13,11 @@ interface order {
 	client: string;
 	products: [OrdersDetail];
 	price_total: number;
+	createAt?: any;
 	direction: string;
 	distrito: string;
 	quantity_total: number;
+	statePedido: string;
 	state: boolean;
 }
 
@@ -128,9 +130,62 @@ export default class Order {
 	async setOrder(state: boolean, uidOrder: string, order?: order) {
 		order.state = state;
 		order._uid = uidOrder;
+		order.createAt = new Date();
 		return await this.captureError.catureErrorsetItem(
 			this.querys.setItem(uidOrder, order || this.Orders)
 		);
+	}
+
+	async addOrder(order: order) {
+		order.createAt = new Date();
+		order.state = false;
+		const response = await this.captureError.captureErrorAdditem(
+			this.querys.addItem(order)
+		);
+		if (response) {
+			return await this.captureError.catureErrorupdateItem(
+				this.querys.setItemsUid(response.id, '_uid')
+			);
+		}
+
+		return false;
+	}
+
+	async getEstatusOrder(uid: string) {
+		const status = await this.captureError.captureErrorDocument(
+			this.querys.getItem(uid)
+		);
+		if (status) {
+			return status.data();
+		}
+	}
+
+	async getEstatusOrders() {
+		const response = await this.captureError.captureErrorCollention(
+			this.querys.getItems(50, 'estatus_pedidos')
+		);
+		if (response) {
+			const tipePedido = [];
+			response.forEach(tipe => {
+				tipePedido.push(tipe.data());
+			});
+
+			return tipePedido;
+		}
+		return false;
+	}
+
+	async addEstatusOrder(data: any) {
+		const uid = await this.captureError.captureErrorAdditem(
+			this.querys.addItem(data, 'estatus_pedidos')
+		);
+		if (uid) {
+			return await this.captureError.catureErrorupdateItem(
+				this.querys.setItemsUid(uid.id, '_uid', 'estatus_pedidos')
+			);
+		}
+
+		return false;
 	}
 
 	async deleteOder(doc: string) {

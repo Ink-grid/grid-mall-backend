@@ -16,6 +16,7 @@ import Access from '@controllers/Access';
 import Logistica from '@controllers/Logistica';
 import TypeLogistica from '@controllers/TypeLogistica';
 import Pagos from '@controllers/Pagos';
+import Cotizacion from '@controllers/Cotizacion';
 
 async function forEach(array, callback, thisArg?) {
 	const promiseArray = [];
@@ -117,6 +118,15 @@ export const resolvers = {
 		},
 		getPricebyAddress: async () => {
 			return await new Order().getOrderPriceAddress();
+		},
+		getEstatusOrders: async () => {
+			return await new Order().getEstatusOrders();
+		},
+		getCotizacionByclient: async (_, { uid }) => {
+			return await new Cotizacion().getCotizacionbyClient(uid);
+		},
+		getCotizacionByactive: async () => {
+			return await new Cotizacion().getCotizacionesActives();
 		}
 	},
 	Mutation: {
@@ -230,6 +240,17 @@ export const resolvers = {
 		async createPriceAddress(_, { input }) {
 			return await new Order().addOrderPriceAddress(input);
 		},
+		async createEstatusOrder(_, { input }) {
+			return await new Order().addEstatusOrder(input);
+		},
+
+		async createCotizacion(_, { input }) {
+			return await new Cotizacion(input).addCotizacion();
+		},
+
+		async createOrder(_, { input }) {
+			return await new Order().addOrder(input);
+		},
 		async createNewTransactionPayment(_, { input }) {
 			const uidOrder = await new Pagos().setPagoStripe(
 				input.email,
@@ -284,6 +305,10 @@ export const resolvers = {
 			return newproducts;
 		},
 
+		statePedido: async ({ statePedido }) => {
+			return await new Order().getEstatusOrder(statePedido);
+		},
+
 		// direction: async ({ direction }) => {
 		// 	return await new Client().getDIrection(direction);
 		// },
@@ -302,6 +327,12 @@ export const resolvers = {
 		// },
 		user: async ({ user }) => {
 			return await new User().getUser(user);
+		}
+	},
+
+	Cotizacion: {
+		client: async ({ client }) => {
+			return await new Client().getClient(client);
 		}
 	},
 
