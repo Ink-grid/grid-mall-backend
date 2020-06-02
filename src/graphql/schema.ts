@@ -123,6 +123,7 @@ const typeDesf = `
    }
    input EstatusOrderInput {
         type: String!
+        color: String!
         description: String
    }
 
@@ -261,6 +262,7 @@ const typeDesf = `
    type EstatusOrder {
            _uid: String!
            type: String!
+           color: String!
            description: String
    }
 
