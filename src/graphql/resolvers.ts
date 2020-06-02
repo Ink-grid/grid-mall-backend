@@ -258,6 +258,12 @@ export const resolvers = {
 				input.price
 			);
 			if (uidOrder) {
+				if (input.deleted) {
+					const response = await new Order().deleteOder(input.deleted);
+					if (!response) {
+						return false;
+					}
+				}
 				//input._uid = uidOrder;
 				return await new Order().setOrder(true, uidOrder, input.order);
 			}

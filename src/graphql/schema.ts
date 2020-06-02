@@ -109,6 +109,7 @@ const typeDesf = `
         source: String!
         price: Float!
         order: OrderInputs!
+        deleted: String
    }
 
    input OrderInputs {
