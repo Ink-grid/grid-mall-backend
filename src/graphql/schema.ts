@@ -1,6 +1,5 @@
 /** @format */
 // graphql inkmarket backend
-
 import { makeExecutableSchema } from 'graphql-tools';
 import { resolvers } from './resolvers';
 const typeDesf = `
@@ -36,6 +35,7 @@ const typeDesf = `
         getEstatusOrders: [EstatusOrder]
         getCotizacionByclient(uid: String!): [Cotizacion]
         getCotizacionByactive: [Cotizacion]
+        getForms(doc: String!, colection: String!): Object
     }
 
     type Mutation {
@@ -67,6 +67,8 @@ const typeDesf = `
         createCotizacion(input: CotizacionInput): Boolean
         updateClient(uid: String!, input: UpdateCLient! ): Boolean
         createOrder(input: OrderInputs! ):Boolean
+        createForms(doc: String!, colection: String!, data: Object! ): Boolean
+        createFormsByuid(doc: String!, colection: String!, uid: String!, data: Object!): Boolean
     }
 
     input CategoryInput {
@@ -426,6 +428,8 @@ const typeDesf = `
             uri: String
             observers: Int   
     }
+
+    scalar Object
 `;
 
 export default makeExecutableSchema({

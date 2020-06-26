@@ -17,6 +17,8 @@ import Logistica from '@controllers/Logistica';
 import TypeLogistica from '@controllers/TypeLogistica';
 import Pagos from '@controllers/Pagos';
 import Cotizacion from '@controllers/Cotizacion';
+import Formularios from '@controllers/Formularios';
+//import ObjectScalarType from './anytype';
 
 async function forEach(array, callback, thisArg?) {
 	const promiseArray = [];
@@ -127,6 +129,9 @@ export const resolvers = {
 		},
 		getCotizacionByactive: async () => {
 			return await new Cotizacion().getCotizacionesActives();
+		},
+		getForms: async (_, { doc, colection }) => {
+			return await new Formularios().getForm(doc, colection);
 		}
 	},
 	Mutation: {
@@ -242,6 +247,14 @@ export const resolvers = {
 		},
 		async createEstatusOrder(_, { input }) {
 			return await new Order().addEstatusOrder(input);
+		},
+
+		async createForms(_, { doc, colection, data }) {
+			return await new Formularios().addFrom(doc, colection, data);
+		},
+
+		async createFormsByuid(_, { doc, colection, uid, data }) {
+			return await new Formularios().setForm(doc, colection, uid, data);
 		},
 
 		async createCotizacion(_, { input }) {

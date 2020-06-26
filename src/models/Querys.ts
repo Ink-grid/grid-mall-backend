@@ -128,7 +128,7 @@ export default class Querys {
 		arrayName: string,
 		elemet: string | number
 	) {
-		firestore
+		return firestore
 			.collection(collection)
 			.doc(doc)
 			.update({
@@ -136,6 +136,45 @@ export default class Querys {
 			});
 	}
 
+	public getColections(
+		doc: string,
+		colectiontwo: string,
+		collection = this.collection
+	) {
+		return firestore
+			.collection(collection)
+			.doc(doc)
+			.collection(colectiontwo)
+			.get();
+	}
+
+	public addItemColection(
+		doc: string,
+		colectiontwo: string,
+		data: any,
+		collection = this.collection
+	) {
+		return firestore
+			.collection(collection)
+			.doc(doc)
+			.collection(colectiontwo)
+			.add(data);
+	}
+
+	public setItemColection(
+		doc: string,
+		colectiontwo: string,
+		data: any,
+		uid: string,
+		collection = this.collection
+	) {
+		return firestore
+			.collection(collection)
+			.doc(doc)
+			.collection(colectiontwo)
+			.doc(uid)
+			.set(data, { merge: true });
+	}
 	// public deletedCollectionItem(collection = this.collection){
 
 	// }
